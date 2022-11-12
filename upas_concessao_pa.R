@@ -15,7 +15,7 @@ glimpse(upa)
 upa_clean <- upa %>%
         left_join(umf, by = c('UMF', 'FLONA')) %>%
         mutate(umf_name = toupper(umf_name)) %>%
-        mutate(UPA_aux = if_else(UPA < 10, paste('0', UPA, sep=''), 
+        mutate(UPA_aux = if_else(UPA < 10, paste('0', UPA, sep = ''), 
                                  as.character(UPA))) %>%
         mutate(id_upa = paste(id_umf, UPA_aux, sep = '-')) %>%
         select(id, id_umf, UMF, umf_name, FLONA, UPA, COD_UPA, id_upa, Conces, 
