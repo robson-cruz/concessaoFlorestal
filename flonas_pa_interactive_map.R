@@ -26,23 +26,26 @@ umf <- st_read(
         'C:/Users/rcflo/Documents/upas_concessao_pa_20221110/umf_concessao_pa.shp'
 )
 
-pa_boundaring <- st_read('D:/geo/ibge/malha_municipal/PA_Municipios_2020/PA_Municipios_2020.shp')
+pa_county <- st_read('D:/geo/ibge/malha_municipal/PA_Municipios_2020/PA_Municipios_2020.shp')
 
+pa_boundary <- st_read('D:/geo/ibge/malha_municipal/PA_UF_2020.shp')
 
 # Set the interactive mode
 tmap_mode('view') 
 
 # Municipios
-tm_shape(pa_boundaring) +
-        tm_polygons(col = NA, alpha = 0.1,
+f <- tm_shape(pa_county) +
+        tm_polygons(col = NA,
                     group = 'Município',
                     id = 'NM_MUN',
                     popup.vars = NULL) +
+        tm_shape(pa_boundary) +
+        tm_borders(col = 'black', lwd = 3, group = 'PA') +
         
         # FLONA
         tm_shape(flonas) +
         tm_fill(
-                'darkolivegreen3',
+                'darkolivegreen1',
                 alpha = .75, 
                 group = 'FLONA',
                 id = 'nome', 
@@ -59,12 +62,12 @@ tm_shape(pa_boundaring) +
         tm_shape(flonas_conces) +
         tm_borders(col = 'red', group = 'Concessão') +
         
-        # tmap_leaflet(flonas_conces, add.titles = FALSE) +
-        # leaflet::hideGroup('flonas_conces', 'flonas_conces') +
-        
         tm_minimap(server = 'OpenStreetMap', position = c('right', 'bottom')) +
         tm_basemap(server = 'OpenStreetMap') +
         tm_mouse_coordinates()
 
+tmap_leaflet(f) %>%
+        addLayersControl(baseGroups = c('OpenStreetMap', 'Concessão'), 
+                         overlayGroups = c('PA', 'FLONA', 'Município'))
 
         
