@@ -3,17 +3,17 @@ library(sf, warn.conflicts = FALSE)
 library(tmap, warn.conflicts = FALSE)
 
 umf <- st_read(
-        'C:/Users/rcflo/Documents/upas_concessao_pa_20221110/umf_concessao_pa.shp'
-) %>%
-        mutate(Name = gsub('-', ' ', Name)) %>%
-        mutate(Name = toupper(Name))
+        'D:/concessaoFlorestal/data/umf_pa.shp'
+)
+
+tmap_mode('view')
 
 tm_shape(umf) +
         tm_polygons(col = NA, 
                     border.col = 'red', 
                     alpha = 0.5,
                     group = 'UMF',
-                    id = 'Name',
+                    id = 'umf',
                     popup.var = c('Flona' = 'flona', 'Concessionária' = 'Conces', 'Situação' = 'status')
                     # popup.format = list(
                     #         HECTARES = list(digits = 2, 
@@ -27,5 +27,4 @@ tm_shape(umf) +
                   = TRUE) +
         
         tm_basemap(server = 'OpenStreetMap') +
-        tm_mouse_coordinates() +
-        tmapOutput(outputId = 'umf_screen', height = 1080)
+        tm_mouse_coordinates()

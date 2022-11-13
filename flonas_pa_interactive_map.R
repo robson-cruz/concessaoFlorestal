@@ -19,11 +19,11 @@ flonas_conces <- flonas %>%
         filter(nome %in% conces_pa)
 
 upas <- st_read(
-        'C:/Users/rcflo/Documents/upas_concessao_pa_20221110/upas_concessao_pa_20221110.shp'
+        'D:/concessaoFlorestal/data/upas_concessao_pa_20221110.shp'
 )
 
 umf <- st_read(
-        'C:/Users/rcflo/Documents/upas_concessao_pa_20221110/umf_concessao_pa.shp'
+        'D:/concessaoFlorestal/data/umf_pa.shp'
 )
 
 pa_county <- st_read('D:/geo/ibge/malha_municipal/PA_Municipios_2020/PA_Municipios_2020.shp')
