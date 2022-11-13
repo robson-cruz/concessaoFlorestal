@@ -3,8 +3,10 @@ library(sf, warn.conflicts = FALSE)
 library(tmap, warn.conflicts = FALSE)
 
 umf <- st_read(
-        'D:/concessaoFlorestal/data/umf_pa.shp'
-)
+        'D:/concessaoFlorestal/data/umf_concessao_pa.shp'
+) %>%
+        mutate(hectares = as.numeric(hectares))
+
 
 tmap_mode('view')
 
@@ -14,11 +16,11 @@ tm_shape(umf) +
                     alpha = 0.5,
                     group = 'UMF',
                     id = 'umf',
-                    popup.var = c('Flona' = 'flona', 'Concessionária' = 'Conces', 'Situação' = 'status')
-                    # popup.format = list(
-                    #         HECTARES = list(digits = 2, 
-                    #                         decimal.mark = ',', 
-                    #                         big.mark = '.'))
+                    popup.var = c('hectares',
+                                  'Flona' = 'flona', 
+                                  'Concessionária' = 'conces', 
+                                  'Situação' = 'status'),
+                    popup.format = list(hectares = list(digits = 2, decimal.mark = ',', big.mark = '.'))
         ) +
         
         #tm_text('Name', size = 1.4) +
