@@ -63,11 +63,10 @@ f <- tm_shape(pa_county) +
         # FLONA Sob Concessao 
         tm_shape(flonas_conces) +
         tm_borders(col = 'red', group = 'Concessão') +
-        
-        tm_minimap(server = 'OpenStreetMap', position = c('right', 'bottom')) +
-        tm_basemap(server = 'OpenStreetMap', group = NULL) +
-        tm_mouse_coordinates()
+        tm_basemap(server = 'OpenStreetMap') +
+        tm_mouse_coordinates() +
+        tm_minimap(server = 'OpenStreetMap', position = c('right', 'bottom'))
 
-flona_map <- tmap_leaflet(f) %>%
-        addLayersControl(baseGroups = c('Concessão'), 
-                         overlayGroups = c('PA', 'FLONA', 'Município'))
+flona_map <- tmap_leaflet(f, in.shiny = TRUE) %>%
+        addLayersControl(baseGroups = c('Camadas'), 
+                         overlayGroups = c('PA', 'FLONA', 'Município', 'Concessão'))
