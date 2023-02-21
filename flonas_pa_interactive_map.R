@@ -68,7 +68,7 @@ f <- tm_shape(pa_county) +
         tm_basemap(server = 'OpenStreetMap', group = NULL) +
         tm_mouse_coordinates()
 
-tmap_leaflet(f) %>%
+flona_map <- tmap_leaflet(f) %>%
         addLayersControl(baseGroups = c('Concessão'), 
                          overlayGroups = c('PA', 'FLONA', 'Município'))
 
