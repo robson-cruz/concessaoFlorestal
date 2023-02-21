@@ -5,7 +5,7 @@ library(leaflet)
 
 
 # Forest Concession in Pará State
-conces_pa <- c('FLORESTA NACIONAL DE CAXIUANÃ', 'FLORESTA NACIONAL DO CREPORI',
+conces_pa <- c('FLORESTA NACIONAL DE CAXIUANÂ', 'FLORESTA NACIONAL DO CREPORI',
                'FLORESTA NACIONAL DE SARACÁ-TAQUERA', 
                'FLORESTA NACIONAL DE ALTAMIRA')
 
@@ -71,5 +71,3 @@ f <- tm_shape(pa_county) +
 flona_map <- tmap_leaflet(f) %>%
         addLayersControl(baseGroups = c('Concessão'), 
                          overlayGroups = c('PA', 'FLONA', 'Município'))
-
-        
