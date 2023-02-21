@@ -1,0 +1,75 @@
+---
+title: "Concessão Florestal"
+output: 
+  flexdashboard::flex_dashboard:
+    orientation: columns
+    vertical_layout: fill
+---
+
+```{r setup, include=FALSE}
+library(flexdashboard)
+library(dplyr, warn.conflicts = FALSE)
+library(sf, warn.conflicts = FALSE)
+library(tmap, warn.conflicts = FALSE)
+library(leaflet)
+```
+
+```{r, include=FALSE}
+source("D:/concessaoFlorestal/flonas_pa_interactive_map.R", local = knitr::knit_global())
+source("D:/concessaoFlorestal/umf_pa_interactive_map.R", local = knitr::knit_global())
+```
+
+FLONAS
+=============================
+Column
+-----------------------------------------------------------------------
+
+### Florestas Nacionais sob Concessão
+
+```{r}
+flona_map
+```
+
+Column {data-width=250, data-orientaion=rows}
+-----------------------------------------------------------------------
+### PMFS
+```{r}
+valueBox(nrow(umf))
+```
+
+### Concecionárias
+```{r}
+valueBox(length(unique(umf$conces)) - 1)
+```
+
+### UPAs AUTORIZADAS
+```{r}
+valueBox(nrow(upas[upas$status == "Explorada" | upas$status == "Explorando", ]))
+```
+
+### Árvores Inventariadas
+```{r}
+fi <- readRDS("D:/CensoFlorestal/data/if_concessao_pa_clean.rds")
+
+valueBox(prettyNum(nrow(fi), big.mark = "."))
+```
+
+### Espécies Inventariadas
+```{r}
+valueBox(prettyNum(length(unique(fi$Nome_Cientifico)), big.mark = "."))
+```
+
+
+UMF
+=============================
+Column
+-----------------------------------------------------------------------
+```{r}
+umf_map
+```
+
+
+UPA
+=============================
+Column
+-----------------------------------------------------------------------
