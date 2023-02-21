@@ -12,6 +12,7 @@ library(dplyr, warn.conflicts = FALSE)
 library(sf, warn.conflicts = FALSE)
 library(tmap, warn.conflicts = FALSE)
 library(leaflet)
+library(DT)
 ```
 
 ```{r, include=FALSE}
@@ -73,3 +74,23 @@ UPA
 =============================
 Column
 -----------------------------------------------------------------------
+
+TABELAS
+=============================
+Column
+-----------------------------------------------------------------------
+```{r}
+flonas <- flonas_conces %>%
+        select(nome, areaHa, anoCriacao, areaHa, atoLegal, UF, municipios)
+datatable(
+        flonas,
+        rownames = FALSE,
+        caption = "Florestas Nacionais sob Concessão Pública.", 
+        extensions = "Buttons",
+        options = list(
+                dom = "Bfrtip",
+                buttons = c('copy', 'csv', 'excel', 'pdf', 'print')
+        )
+)
+```
+> Fonte: ICMBio.
