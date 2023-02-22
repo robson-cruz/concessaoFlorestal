@@ -16,8 +16,8 @@ library(DT)
 ```
 
 ```{r, include=FALSE}
-source("D:/concessaoFlorestal/flonas_pa_interactive_map.R", local = knitr::knit_global())
-source("D:/concessaoFlorestal/umf_pa_interactive_map.R", local = knitr::knit_global())
+source("D:/concessaoFlorestal/leaflet_map_flonas.R", local = knitr::knit_global())
+source("D:/concessaoFlorestal/leaflet_map_umf.R", local = knitr::knit_global())
 ```
 
 FLONAS
@@ -31,7 +31,7 @@ Column
 flona_map
 ```
 
-Column {data-width=250, data-orientaion=rows}
+Column {data-width=100, data-orientaion=rows}
 -----------------------------------------------------------------------
 ### PMFS
 ```{r}
@@ -61,36 +61,37 @@ valueBox(prettyNum(length(unique(fi$Nome_Cientifico)), big.mark = "."))
 ```
 
 
-UMF
+UMF/UPA
 =============================
 Column
 -----------------------------------------------------------------------
+
+### Florestas Nacionais sob Concessão
 ```{r}
 umf_map
 ```
 
 
-UPA
-=============================
-Column
------------------------------------------------------------------------
-
 TABELAS
 =============================
 Column
 -----------------------------------------------------------------------
+
 ```{r}
 flonas <- flonas_conces %>%
         select(nome, areaHa, anoCriacao, areaHa, atoLegal, UF, municipios)
+
 datatable(
         flonas,
-        rownames = FALSE,
         caption = "Florestas Nacionais sob Concessão Pública.", 
         extensions = "Buttons",
         options = list(
+                rownames = FALSE,
+                pageLength = 6,
                 dom = "Bfrtip",
                 buttons = c('copy', 'csv', 'excel', 'pdf', 'print')
-        )
+        ),
+        fillContainer = TRUE
 )
 ```
 > Fonte: ICMBio.
