@@ -5,6 +5,8 @@ library(leaflet, warn.conflicts = FALSE)
 
 source("D:/concessaoFlorestal/leaflet_map_flonas.R")
 
+pa_boundary <- st_read('D:/geo/ibge/malha_municipal/PA_UF_2020.shp')
+
 umf <- st_read(
         "D:/concessaoFlorestal/data/umf_concessao_pa/umf_concessao_pa.shp"
 ) %>%
@@ -35,11 +37,13 @@ pop_upa <- paste0(
         "Status: ", upas$status
 )
 
+pal <- colorFactor(palette = "RdYlBu", domain = upas$status)
+
 umf_map <- umf %>%
         leaflet() %>%
         addTiles() %>%
-        addProviderTiles(provider = "OpenTopoMap", group = "OpenTopoMap") %>%
         addProviderTiles(provider = "OpenStreetMap.Mapnik", group = "OpenStreetMap") %>%
+        addProviderTiles(provider = "OpenTopoMap", group = "OpenTopoMap") %>%
         addPolygons(
                 group = "UMF",
                 fillOpacity = 0.05,
@@ -50,13 +54,37 @@ umf_map <- umf %>%
         addPolygons(
                 data = upas,
                 group = "UPA",
-                fillOpacity = 0.05,
-                fill = upas$status,
+                fillOpacity = 0.5,
+                color = ~pal(status),
+                highlightOptions = highlightOptions(color = 'yellow', 
+                                                    weight = 2,
+                                                    fillOpacity = 0.7,
+                                                    bringToFront = TRUE),
                 popup = pop_upa
         ) %>%
+        addLegend(
+                pal = pal,
+                values = ~upas$status,
+                group = "UPA",
+                title = "UPA"
+        ) %>%
+        addPolygons(
+                data = pa_boundary,
+                group = "Pará",
+                fill = FALSE,
+                color = "#666"
+        ) %>%
+        addPolygons(
+                data = flonas_conces,
+                group = "FLONA",
+                fill = NA,
+                color = "black",
+                popup = pop_flona
+                
+        ) %>%
         addLayersControl(
-                baseGroups = c("OpenTopoMap", "OpenStreetMap", "UPA"),
-                overlayGroups = c("UMF"),
+                baseGroups = c("OpenTopoMap", "OpenStreetMap"),
+                overlayGroups = c("UMF", "Pará", "UPA", "FLONA"),
                 options = layersControlOptions(collapsed = FALSE)
         ) %>%
         addMiniMap(toggleDisplay = TRUE) %>%
