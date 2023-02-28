@@ -91,7 +91,7 @@ umf_map <- umf %>%
         ) %>%
         addMiniMap(toggleDisplay = TRUE) %>%
         leafem::addMouseCoordinates() %>%
-        leafem::addHomeButton(group = "UMF", position = "topleft") %>%
+        leaflet.extras::addResetMapButton() %>%
         leafem::addLogo(
                 img = "https://upload.wikimedia.org/wikipedia/commons/8/81/Logo_IBAMA.svg", 
                 url = "http://www.ibama.gov.br/index.php?tipo=portal",
