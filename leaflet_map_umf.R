@@ -5,17 +5,20 @@ library(leaflet, warn.conflicts = FALSE)
 
 source("D:/concessaoFlorestal/leaflet_map_flonas.R")
 
-pa_boundary <- st_read('D:/geo/ibge/malha_municipal/PA_UF_2020.shp')
+pa_boundary <- st_read('D:/geo/ibge/malha_municipal/PA_UF_2020.shp') %>%
+        st_transform(4326)
 
 umf <- st_read(
         "D:/concessaoFlorestal/data/umf_concessao_pa/umf_concessao_pa.shp"
 ) %>%
-        mutate(hectares = as.numeric(hectares))
+        mutate(hectares = as.numeric(hectares)) %>%
+        st_transform(4326)
 
 upas <- st_read(
         "D:/concessaoFlorestal/data/upas_concessao_pa_20221206/upas_concessao_pa_20221206.shp"
 ) %>%
-        mutate(status = recode(status, "Exploracao Futura" = "Exploração Futura"))
+        mutate(status = recode(status, "Exploracao Futura" = "Exploração Futura")) %>%
+        st_transform(4326)
 
 pop_upa <- paste0(
         "<b>", "UPA ", "</b", "<b>", upas$UPA, "</b>",
@@ -41,7 +44,6 @@ pal <- colorFactor(palette = "RdYlBu", domain = upas$status)
 
 umf_map <- umf %>%
         leaflet() %>%
-        addTiles() %>%
         addProviderTiles(provider = "OpenStreetMap.Mapnik", group = "OpenStreetMap") %>%
         addProviderTiles(provider = "OpenTopoMap", group = "OpenTopoMap") %>%
         addPolygons(
@@ -89,7 +91,7 @@ umf_map <- umf %>%
         ) %>%
         addMiniMap(toggleDisplay = TRUE) %>%
         leafem::addMouseCoordinates() %>%
-        leafem::addHomeButton(group = "UMF", position = "topleft") %>%
+        leaflet.extras::addResetMapButton() %>%
         leafem::addLogo(
                 img = "https://upload.wikimedia.org/wikipedia/commons/8/81/Logo_IBAMA.svg", 
                 url = "http://www.ibama.gov.br/index.php?tipo=portal",

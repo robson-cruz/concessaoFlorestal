@@ -21,11 +21,13 @@ flonas_conces <- flonas %>%
 
 upas <- st_read(
         'D:/concessaoFlorestal/data/upas_concessao_pa_20221206/upas_concessao_pa_20221206.shp'
-)
+) %>%
+        st_transform(4326)
 
 umf <- st_read(
         'D:/concessaoFlorestal/data/umf_concessao_pa/umf_concessao_pa.shp'
-)
+) %>%
+        st_transform(4326)
 
 pop_flona <- paste0(
         "", "<b>",flonas_conces$nom,"</b>",
@@ -49,7 +51,7 @@ pop_umf <- paste0(
 
 flona_map <- flonas_conces %>%
         leaflet() %>%
-        addTiles(group = "OpenStreetmap") %>%
+        addProviderTiles(provider = "OpenStreetMap", group = "OpenStreetmap") %>%
         addPolygons(
                 group = "Concessão",
                 fillOpacity = 0.05,
@@ -72,7 +74,7 @@ flona_map <- flonas_conces %>%
         ) %>%
         addMiniMap(toggleDisplay = TRUE) %>%
         leafem::addMouseCoordinates() %>%
-        leafem::addHomeButton(group = "Concessão", position = "topleft") %>%
+        leaflet.extras::addResetMapButton() %>%
         leafem::addLogo(
                 img = "https://upload.wikimedia.org/wikipedia/commons/8/81/Logo_IBAMA.svg", 
                 url = "http://www.ibama.gov.br/index.php?tipo=portal",
