@@ -15,7 +15,8 @@ umf <- st_read(
         st_transform(4326)
 
 upas <- st_read(
-        "D:/concessaoFlorestal/data/upas_concessao_pa_20221206/upas_concessao_pa_20221206.shp"
+        "D:/concessaoFlorestal/data/upas_concessao_pa_20221206/upas_concessao_pa_20221206.shp",
+        options = 'ENCODING=UTF-8'
 ) %>%
         mutate(status = recode(status, "Exploracao Futura" = "Exploração Futura")) %>%
         st_transform(4326)
