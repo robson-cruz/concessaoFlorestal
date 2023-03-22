@@ -11,7 +11,7 @@ conces_pa <- c('FLORESTA NACIONAL DE CAXIUANÂ', 'FLORESTA NACIONAL DO CREPORI',
 # Load shapefile data
 flonas <- st_read(
         'D:/geo/icmbio/UC_fed_junho_2020/flonas.shp',
-        options = 'ENCONDING=latin1'
+        options = 'ENCODING=UTF-8'
 ) %>%
         filter(UF == 'PA') %>%
         select(nome, areaHa, anoCriacao, areaHa, atoLegal, UF, municipios)
