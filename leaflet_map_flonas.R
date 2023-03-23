@@ -20,7 +20,7 @@ flonas_conces <- flonas %>%
         filter(nome %in% conces_pa)
 
 upas <- st_read(
-        'D:/concessaoFlorestal/data/upas_concessao_pa_20221206/upas_concessao_pa_20221206.shp'
+        'D:/concessaoFlorestal/data/upas_concessao_pa_20230322/upas_concessao_pa_20221206.shp'
 ) %>%
         st_transform(4326)
 
