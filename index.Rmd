@@ -8,6 +8,7 @@ output:
 
 ```{r setup, include=FALSE}
 library(flexdashboard)
+library(shiny)
 library(dplyr, warn.conflicts = FALSE)
 library(sf, warn.conflicts = FALSE)
 library(tmap, warn.conflicts = FALSE)
@@ -15,7 +16,7 @@ library(leaflet)
 library(DT)
 ```
 
-```{r, include=FALSE}
+```{r include=FALSE}
 source('D:/concessaoFlorestal/leaflet_map_flonas.R', local = knitr::knit_global())
 source('D:/concessaoFlorestal/leaflet_map_umf.R', local = knitr::knit_global())
 ```
@@ -49,7 +50,7 @@ valueBox(nrow(upas[upas$status == 'Explorada' | upas$status == 'Explorando', ]))
 ```
 
 ### Árvores Inventariadas
-```{r}
+```{r load_data}
 fi <- readRDS('D:/CensoFlorestal/output/data_clean/if_concessao_pa.rds')
 
 valueBox(prettyNum(nrow(fi), big.mark = '.'))
