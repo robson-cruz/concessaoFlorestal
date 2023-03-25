@@ -58,8 +58,12 @@ valueBox(prettyNum(nrow(fi), big.mark = '.'))
 
 ### Espécies Inventariadas
 ```{r}
-df <- fi[!is.na(fi$nome_cientifico), ]
-df <- filter(df, !grepl('^(.*\\b[sp|spp]$).*', nome_cientifico))
+df <- fi %>% filter(
+        nome_cientifico != "",
+        !is.na(fi$nome_cientifico),
+        !grepl('^(.*\\b[sp|spp]$).*', nome_cientifico)
+)
+
 valueBox(prettyNum(length(unique(df$nome_cientifico)), big.mark = '.'))
 ```
 
