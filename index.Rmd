@@ -17,8 +17,8 @@ library(DT)
 ```
 
 ```{r include=FALSE}
-source('D:/concessaoFlorestal/leaflet_map_flonas.R', local = knitr::knit_global())
-source('D:/concessaoFlorestal/leaflet_map_umf.R', local = knitr::knit_global())
+source('./leaflet_map_flonas.R', local = knitr::knit_global())
+source('./leaflet_map_umf.R', local = knitr::knit_global())
 ```
 
 FLONAS
@@ -51,7 +51,7 @@ valueBox(nrow(upas[upas$status == 'Explorada' | upas$status == 'Explorando', ]))
 
 ### Árvores Inventariadas
 ```{r load_data}
-fi <- readRDS('D:/CensoFlorestal/output/data_clean/if_concessao_pa.rds')
+fi <- readRDS('./output/data_clean/if_concessao_pa.rds')
 
 valueBox(prettyNum(nrow(fi), big.mark = '.'))
 ```
@@ -64,7 +64,12 @@ df <- fi %>% filter(
         !grepl('^(.*\\b[sp|spp]$).*', nome_cientifico)
 )
 
-valueBox(prettyNum(length(unique(df$nome_cientifico)), big.mark = '.'))
+ref_name <- data.frame(name = taxize::gnr_resolve(df$nome_cientifico, 
+                    best_match_only = TRUE, 
+                    canonical = TRUE)$matched_name2) %>%
+        filter(grepl("^\\w+\\s\\b", name))
+
+valueBox(prettyNum(length(unique(ref_name)), big.mark = '.'))
 ```
 
 
