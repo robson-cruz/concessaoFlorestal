@@ -51,7 +51,7 @@ valueBox(nrow(upas[upas$status == 'Explorada' | upas$status == 'Explorando', ]))
 
 ### Árvores Inventariadas
 ```{r load_data}
-fi <- readRDS('./output/data_clean/if_concessao_pa.rds')
+fi <- readRDS('D:/CensoFlorestal/output/data_clean/if_concessao_pa.rds')
 
 valueBox(prettyNum(nrow(fi), big.mark = '.'))
 ```
@@ -64,12 +64,24 @@ df <- fi %>% filter(
         !grepl('^(.*\\b[sp|spp]$).*', nome_cientifico)
 )
 
-ref_name <- data.frame(name = taxize::gnr_resolve(df$nome_cientifico, 
-                    best_match_only = TRUE, 
-                    canonical = TRUE)$matched_name2) %>%
-        filter(grepl("^\\w+\\s\\b", name))
+# Set a data frame with only distinct scientific names
+names <- data.frame(name = sort(unique(df$nome_cientifico)))
 
-valueBox(prettyNum(length(unique(ref_name)), big.mark = '.'))
+# Get the correct scientific names using taxize package
+ref_name <- taxize::gnr_resolve(names$name, 
+                    best_match_only = TRUE, 
+                    canonical = TRUE) %>%
+        rename(nome_cientifico = submitted_name) %>%
+        select(nome_cientifico, matched_name2)
+
+
+# Join data frames
+df <- fi %>%
+        left_join(ref_name, by = 'nome_cientifico') %>%
+        mutate(nome_cientifico = paste0(matched_name2)) %>%
+        select(-matched_name2)
+
+valueBox(prettyNum(length(unique(df$nome_cientifico)), big.mark = '.'))
 ```
 
 
