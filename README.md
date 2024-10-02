@@ -12,3 +12,6 @@
 <p>
   <a href="https://app.powerbi.com/groups/me/reports/28a83d8d-5084-4e47-b082-4cb6c503d5a5/ReportSection" target="_blank">BI</a>
 </p>
+<p>
+  <img src="https://github.com/robson-cruz/concessaoFlorestal/blob/main/dashBoard_concessao_Ibama.jpg"/>
+</p>
